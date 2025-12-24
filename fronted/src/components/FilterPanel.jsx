@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getStations } from '../../../backend/src/services/api';
+import { getStations } from '../../../backend/services/api';
 
 function FilterPanel({ filters, setFilters, onReset, availableStations }) {
   const [stations, setStations] = useState([]);

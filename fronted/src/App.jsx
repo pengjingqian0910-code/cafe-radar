@@ -3,7 +3,7 @@ import Map from './components/Map';
 import FilterPanel from './components/FilterPanel';
 import SiteCard from './components/SiteCard';
 import AIExplaination from './components/AIExplaination';
-import { getMapData, getSites, getAIExplaination } from '../../backend/src/services/api';
+import { getMapData, getSites, getAIExplaination } from '../../backend/services/api';
 import './App.css';
 
 function App() {

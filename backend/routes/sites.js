@@ -9,8 +9,8 @@ import {
   searchSites,
   clearCache,
   testConnection
-} from '../src/services/bigquery.js';
-import { calculateOptimalScore } from '../src/services/scoreCalculator.js';
+} from '../services/bigquery.js';
+import { calculateOptimalScore } from '../services/scoreCalculator.js';
 
 const router = express.Router();
 
