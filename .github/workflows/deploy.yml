@@ -1,0 +1,49 @@
+name: Deploy to host or Render
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy-via-ssh:
+    if: ${{ secrets.DEPLOY_HOST && secrets.DEPLOY_SSH_KEY }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Deploy via SSH - pull and restart docker compose
+        uses: appleboy/ssh-action@v0.1.8
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          port: ${{ secrets.DEPLOY_SSH_PORT }}
+          script: |
+            set -e
+            cd "${{ secrets.DEPLOY_PATH }}" || exit 1
+            docker compose pull || true
+            docker compose up -d --remove-orphans
+
+  deploy-to-render:
+    if: ${{ secrets.RENDER_API_KEY && secrets.RENDER_SERVICE_ID }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Render deploy via API
+        env:
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+        run: |
+          echo "Triggering Render deploy for service $RENDER_SERVICE_ID"
+          response=$(curl -s -o /dev/stderr -w "%{http_code}" -X POST "https://api.render.com/v1/services/$RENDER_SERVICE_ID/deploys" \
+            -H "Accept: application/json" \
+            -H "Authorization: Bearer $RENDER_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{}')
+          if [[ "$response" -ge 200 && "$response" -lt 300 ]]; then
+            echo "Render deploy triggered (HTTP $response)"
+          else
+            echo "Render deploy request failed with HTTP status $response"
+            exit 1
+          fi

@@ -1,0 +1,423 @@
+/* ============================================================================
+   🃏 Site Card - 莫蘭迪色系 (修復關閉按鈕)
+============================================================================ */
+
+.site-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(40px) saturate(150%);
+  border: 1.5px solid rgba(168, 168, 159, 0.2);
+  border-radius: 2rem;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+  animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Header - 莫蘭迪粉藍漸層 */
+.site-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2rem 2.5rem;
+  background: linear-gradient(135deg, #d4dfe3 0%, #e8d9d8 100%);
+  color: #3a3a35;
+  position: relative;
+}
+
+.site-card-title {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.site-icon {
+  width: 56px;
+  height: 56px;
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  border: 2px solid rgba(168, 168, 159, 0.2);
+  flex-shrink: 0;
+}
+
+.site-card-title h2 {
+  font-size: 1.75rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.site-zone {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  opacity: 0.75;
+  margin: 0.25rem 0 0 0;
+}
+
+/* 🔴 關閉按鈕 - 強化點擊優先級 */
+.card-close-btn {
+  width: 44px;
+  height: 44px;
+  background: rgba(168, 168, 159, 0.2);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(168, 168, 159, 0.3);
+  border-radius: 0.875rem;
+  color: #3a3a35;
+  font-size: 1.5rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 100;
+  margin-left: 1rem;
+}
+
+.card-close-btn:hover {
+  background: rgba(168, 168, 159, 0.35);
+  border-color: rgba(168, 168, 159, 0.5);
+  transform: rotate(90deg) scale(1.1);
+}
+
+.card-close-btn:active {
+  transform: rotate(90deg) scale(0.95);
+}
+
+/* Score Banner */
+.score-banner {
+  padding: 2rem 2.5rem;
+  background: linear-gradient(135deg, rgba(201, 212, 195, 0.12) 0%, rgba(212, 223, 227, 0.12) 100%);
+  border-bottom: 1.5px solid rgba(175, 197, 204, 0.15);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.score-main {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+}
+
+.score-label {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #6e6e65;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.score-value {
+  font-size: 4rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #afc5cc 0%, #c9d4c3 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.score-max {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #a8a89f;
+}
+
+.score-badges {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-items: flex-end;
+}
+
+.level-badge-modern {
+  padding: 0.75rem 1.5rem;
+  border-radius: 1rem;
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.level-badge-modern.excellent {
+  background: linear-gradient(135deg, #a8b5a0 0%, #c9d4c3 100%);
+}
+
+.level-badge-modern.good {
+  background: linear-gradient(135deg, #afc5cc 0%, #d4dfe3 100%);
+}
+
+.level-badge-modern.fair {
+  background: linear-gradient(135deg, #c0b8aa 0%, #d6cfc2 100%);
+}
+
+.level-badge-modern.poor {
+  background: linear-gradient(135deg, #a89a96 0%, #c5b3af 100%);
+}
+
+.recommend-badge-modern {
+  padding: 0.625rem 1.25rem;
+  background: rgba(168, 181, 160, 0.2);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(168, 181, 160, 0.4);
+  border-radius: 0.875rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #52524b;
+}
+
+/* Metrics Grid */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem 2.5rem;
+}
+
+.metric-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1.5px solid rgba(175, 197, 204, 0.15);
+  border-radius: 1.5rem;
+  padding: 1.75rem;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  gap: 1.25rem;
+}
+
+.metric-card:hover {
+  border-color: rgba(175, 197, 204, 0.3);
+  box-shadow: 0 10px 28px rgba(175, 197, 204, 0.15);
+  transform: translateY(-4px);
+}
+
+.metric-icon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #afc5cc 0%, #c9d4c3 100%);
+  border-radius: 1.125rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  flex-shrink: 0;
+  box-shadow: 0 6px 16px rgba(175, 197, 204, 0.25);
+}
+
+.metric-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.metric-label {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #6e6e65;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+}
+
+.metric-value {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #3a3a35;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.25rem;
+}
+
+.metric-unit {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #8b8b80;
+  margin-bottom: 0.75rem;
+}
+
+.metric-sub {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.level-indicator {
+  padding: 0.375rem 0.875rem;
+  border-radius: 0.625rem;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+  flex: 1;
+  text-align: center;
+}
+
+.level-indicator.excellent {
+  background: linear-gradient(135deg, #a8b5a0 0%, #c9d4c3 100%);
+}
+
+.level-indicator.good {
+  background: linear-gradient(135deg, #afc5cc 0%, #d4dfe3 100%);
+}
+
+.level-indicator.fair {
+  background: linear-gradient(135deg, #c0b8aa 0%, #d6cfc2 100%);
+}
+
+.level-indicator.poor {
+  background: linear-gradient(135deg, #a89a96 0%, #c5b3af 100%);
+}
+
+.metric-score {
+  font-size: 0.875rem;
+  font-weight: 800;
+  color: #8fa9b3;
+  background: rgba(175, 197, 204, 0.15);
+  padding: 0.375rem 0.875rem;
+  border-radius: 0.625rem;
+}
+
+.supply-status,
+.distance-category,
+.total-competitors,
+.distance-decay {
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #52524b;
+  padding: 0.375rem 0.875rem;
+  background: rgba(175, 197, 204, 0.12);
+  border-radius: 0.625rem;
+  flex: 1;
+  text-align: center;
+}
+
+/* Actions */
+.site-card-actions {
+  padding: 1.5rem 2.5rem 2rem;
+  display: flex;
+  justify-content: center;
+  background: rgba(247, 247, 245, 0.5);
+  border-top: 1.5px solid rgba(175, 197, 204, 0.15);
+}
+
+.btn-ai-analysis {
+  padding: 1.125rem 2.5rem;
+  border: none;
+  border-radius: 1.125rem;
+  font-size: 1rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  letter-spacing: 0.025em;
+  background: linear-gradient(135deg, #afc5cc 0%, #c9d4c3 100%);
+  color: white;
+  box-shadow: 0 6px 20px rgba(175, 197, 204, 0.3);
+  min-width: 280px;
+}
+
+.btn-ai-analysis:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 10px 28px rgba(175, 197, 204, 0.4);
+}
+
+.btn-icon {
+  font-size: 1.25rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .site-card-header {
+    padding: 1.5rem 1.75rem;
+  }
+
+  .site-card-title h2 {
+    font-size: 1.375rem;
+  }
+
+  .site-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+  }
+
+  .card-close-btn {
+    width: 40px;
+    height: 40px;
+    font-size: 1.25rem;
+  }
+
+  .score-banner {
+    padding: 1.5rem 1.75rem;
+    flex-direction: column;
+    gap: 1.5rem;
+    align-items: flex-start;
+  }
+
+  .score-value {
+    font-size: 3rem;
+  }
+
+  .score-badges {
+    align-items: flex-start;
+  }
+
+  .metrics-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding: 1.5rem 1.75rem;
+  }
+
+  .metric-card {
+    padding: 1.5rem;
+  }
+
+  .metric-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+  }
+
+  .metric-value {
+    font-size: 1.75rem;
+  }
+
+  .site-card-actions {
+    padding: 1.25rem 1.75rem 1.5rem;
+  }
+
+  .btn-ai-analysis {
+    padding: 1rem 2rem;
+    min-width: auto;
+    width: 100%;
+  }
+}

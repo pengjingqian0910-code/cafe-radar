@@ -1,0 +1,320 @@
+/* ============================================================================
+   🤖 AI Explanation Modal - 莫蘭迪色系
+============================================================================ */
+
+/* 載入容器 */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  min-height: 300px;
+}
+
+/* 載入動畫 */
+.loading-spinner {
+  width: 64px;
+  height: 64px;
+  border: 6px solid rgba(175, 197, 204, 0.15);
+  border-top: 6px solid #afc5cc;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 4px 20px rgba(175, 197, 204, 0.2);
+  margin-bottom: 1.5rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* 載入文字 */
+.loading-text {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #3a3a35;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.025em;
+}
+
+.loading-subtext {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #6e6e65;
+  text-align: center;
+}
+
+/* 地點資訊 */
+.site-info {
+  background: linear-gradient(135deg, #d4dfe3 0%, #e8d9d8 100%);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 1.5rem;
+  color: #3a3a35;
+}
+
+.site-info h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.score-badge {
+  display: inline-block;
+  background: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  border: 1.5px solid rgba(168, 168, 159, 0.2);
+  margin-bottom: 1rem;
+}
+
+/* 快速資訊 */
+.quick-info {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.info-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.info-value {
+  font-size: 0.9375rem;
+  font-weight: 700;
+}
+
+/* 分析內容 */
+.explaination-content {
+  background: rgba(247, 247, 245, 0.5);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  min-height: 200px;
+}
+
+.explaination-text {
+  line-height: 1.8;
+  color: #3a3a35;
+}
+
+.explaination-text p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.explaination-text p:last-child {
+  margin-bottom: 0;
+}
+
+/* 標題 */
+.explaination-heading {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: #3a3a35;
+  margin: 1.5rem 0 0.75rem 0;
+  padding-left: 0.75rem;
+  border-left: 4px solid #afc5cc;
+  letter-spacing: -0.01em;
+}
+
+.explaination-heading:first-child {
+  margin-top: 0;
+}
+
+/* 段落 */
+.explaination-section {
+  margin-bottom: 1.5rem;
+}
+
+/* 列表項目 */
+.explaination-list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #52524b;
+}
+
+.explaination-list-item .bullet {
+  color: #afc5cc;
+  font-weight: 900;
+  flex-shrink: 0;
+  margin-top: 0.125rem;
+}
+
+.explaination-list-item.numbered {
+  padding-left: 1.5rem;
+}
+
+/* 列表 */
+.explaination-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0;
+}
+
+.explaination-list li {
+  position: relative;
+  padding-left: 1.5rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.6;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  color: #52524b;
+}
+
+.explaination-list li::before {
+  content: '▸';
+  position: absolute;
+  left: 0;
+  color: #afc5cc;
+  font-weight: 900;
+}
+
+/* 備用資訊 */
+.fallback-info {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(175, 197, 204, 0.08);
+  border: 1.5px solid rgba(175, 197, 204, 0.2);
+  border-radius: 1rem;
+}
+
+.fallback-info h4 {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  font-weight: 800;
+  color: #3a3a35;
+}
+
+/* 資料網格 */
+.data-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.data-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.data-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #6e6e65;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.data-value {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #3a3a35;
+}
+
+/* Modal 關閉動畫 */
+.modal-overlay.closing {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+.modal-content.closing {
+  animation: slideDown 0.3s ease-out forwards;
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(50px) scale(0.95);
+    opacity: 0;
+  }
+}
+
+/* 錯誤狀態 */
+.modal-header.error {
+  background: linear-gradient(135deg, #c5b3af 0%, #dcccc9 100%);
+}
+
+/* 響應式 */
+@media (max-width: 768px) {
+  .site-info h3 {
+    font-size: 1rem;
+  }
+
+  .quick-info {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .explaination-content {
+    padding: 1rem;
+  }
+
+  .data-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .loading-container {
+    padding: 2rem 1rem;
+  }
+
+  .loading-spinner {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+/* 平滑滾動 */
+.modal-body {
+  scroll-behavior: smooth;
+}
+
+.modal-body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+  background: rgba(175, 197, 204, 0.08);
+  border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+  background: rgba(175, 197, 204, 0.3);
+  border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+  background: rgba(175, 197, 204, 0.5);
+}

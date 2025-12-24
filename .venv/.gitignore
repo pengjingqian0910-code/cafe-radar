@@ -1,0 +1,4 @@
+# 這是隱身名單，告訴 Git 不要把這兩個檔案傳上去
+backend/Service-account-key.json
+backend/.env
+.env

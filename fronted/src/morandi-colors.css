@@ -1,0 +1,102 @@
+/* ============================================================================
+   🎨 莫蘭迪色系 (Morandi Color Palette)
+   風格: 淡雅、柔和、高級灰
+   靈感: 義大利畫家 Giorgio Morandi
+============================================================================ */
+
+:root {
+  /* 🎨 莫蘭迪灰色系 (Morandi Grays) */
+  --morandi-gray-50: #f7f7f5;
+  --morandi-gray-100: #eeeeeb;
+  --morandi-gray-200: #dcdcd7;
+  --morandi-gray-300: #c5c5bf;
+  --morandi-gray-400: #a8a89f;
+  --morandi-gray-500: #8b8b80;
+  --morandi-gray-600: #6e6e65;
+  --morandi-gray-700: #52524b;
+  --morandi-gray-800: #3a3a35;
+  --morandi-gray-900: #252522;
+  
+  /* 🌿 莫蘭迪綠色系 (Morandi Greens) */
+  --morandi-green-light: #c9d4c3;
+  --morandi-green: #a8b5a0;
+  --morandi-green-dark: #8a9881;
+  
+  /* 🌊 莫蘭迪藍色系 (Morandi Blues) */
+  --morandi-blue-light: #d4dfe3;
+  --morandi-blue: #afc5cc;
+  --morandi-blue-dark: #8fa9b3;
+  
+  /* 🌸 莫蘭迪粉色系 (Morandi Pinks) */
+  --morandi-pink-light: #e8d9d8;
+  --morandi-pink: #d4bcbb;
+  --morandi-pink-dark: #b89e9d;
+  
+  /* 🍂 莫蘭迪棕色系 (Morandi Browns) */
+  --morandi-brown-light: #d9cec4;
+  --morandi-brown: #c2b5a8;
+  --morandi-brown-dark: #a99a8c;
+  
+  /* 🌾 莫蘭迪米色系 (Morandi Beiges) */
+  --morandi-beige-light: #e8e3d9;
+  --morandi-beige: #d6cfc2;
+  --morandi-beige-dark: #c0b8aa;
+  
+  /* 🌹 莫蘭迪玫瑰色系 (Morandi Roses) */
+  --morandi-rose-light: #dcccc9;
+  --morandi-rose: #c5b3af;
+  --morandi-rose-dark: #a89a96;
+  
+  /* 🌈 淡雅漸層 (Soft Gradients) */
+  --gradient-morandi-primary: linear-gradient(135deg, #afc5cc 0%, #c9d4c3 100%);
+  --gradient-morandi-soft: linear-gradient(135deg, #d4dfe3 0%, #e8d9d8 100%);
+  --gradient-morandi-warm: linear-gradient(135deg, #d9cec4 0%, #e8e3d9 100%);
+  --gradient-morandi-cool: linear-gradient(135deg, #c9d4c3 0%, #afc5cc 100%);
+  
+  /* 🎭 柔和陰影 (Soft Shadows) */
+  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.06);
+  --shadow-card: 0 2px 12px rgba(0, 0, 0, 0.04);
+  --shadow-hover: 0 8px 24px rgba(0, 0, 0, 0.08);
+  --shadow-glass: 0 4px 16px rgba(0, 0, 0, 0.05);
+  
+  /* 📝 文字顏色 (Text Colors) */
+  --text-primary: #3a3a35;
+  --text-secondary: #6e6e65;
+  --text-tertiary: #8b8b80;
+  --text-light: #a8a89f;
+  
+  /* 🎨 功能性顏色 (Functional Colors) - 淡雅版本 */
+  --success-light: #c9d4c3;
+  --success: #a8b5a0;
+  --success-dark: #8a9881;
+  
+  --warning-light: #e8d9d8;
+  --warning: #d4bcbb;
+  --warning-dark: #b89e9d;
+  
+  --error-light: #dcccc9;
+  --error: #c5b3af;
+  --error-dark: #a89a96;
+  
+  --info-light: #d4dfe3;
+  --info: #afc5cc;
+  --info-dark: #8fa9b3;
+}
+
+/* ============================================================================
+   🎨 等級顏色對應 (Level Colors)
+============================================================================ */
+
+:root {
+  /* 優秀 - 莫蘭迪綠 */
+  --level-excellent: linear-gradient(135deg, #a8b5a0 0%, #c9d4c3 100%);
+  
+  /* 良好 - 莫蘭迪藍 */
+  --level-good: linear-gradient(135deg, #afc5cc 0%, #d4dfe3 100%);
+  
+  /* 普通 - 莫蘭迪米 */
+  --level-fair: linear-gradient(135deg, #c0b8aa 0%, #d6cfc2 100%);
+  
+  /* 差 - 莫蘭迪玫瑰 */
+  --level-poor: linear-gradient(135deg, #a89a96 0%, #c5b3af 100%);
+}
