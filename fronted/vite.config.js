@@ -13,7 +13,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         // ⚠️ 注意：如果你的後端 API 也在另一台電腦，這裡也要改成該電腦的 IP
-        target: 'http://localhost:3001', 
+        target: 'https://cafe-radar.onrender.com', 
         changeOrigin: true,
       },
     },
