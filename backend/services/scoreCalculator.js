@@ -30,18 +30,33 @@ export function calculateSupplyDemandRatio(competitors, dailyFlow) {
   return Number((competitors / (dailyFlow / 10000)).toFixed(2));
 }
 
-// 計算各項分數
-function calculateScores(flowAccessibility, supplyDemandRatio, youbikeCount, facilityCount = 5) {
+// 計算租金對分數的影響（精細分段：在 1000~2000 區間細分）
+export function calculateRentScore(rent) {
+  if (rent === undefined || rent === null) return 50; // 中性分
+  const r = Number(rent);
+  if (Number.isNaN(r)) return 50;
+
+  // 精細分段：更貼近實務租金分佈（1000~2000）
+  if (r <= 1200) return 100;
+  if (r <= 1400) return 85;
+  if (r <= 1600) return 70;
+  if (r <= 1800) return 55;
+  if (r <= 2000) return 40;
+  return 0;
+}
+
+// 計算各項分數（含租金分數 rentScore，租金越高分越低）
+function calculateScores(flowAccessibility, supplyDemandRatio, youbikeCount, rent = null) {
   const flowScore = Math.min(100, flowAccessibility / 1000);
   const supplyScore = Math.max(0, 100 - supplyDemandRatio * 50);
   const youbikeScore = Math.min(100, youbikeCount * 20);
-  const facilityScore = Math.min(100, facilityCount * 10);
+  const rentScore = calculateRentScore(rent);
   
   return {
     flowScore: Number(flowScore.toFixed(1)),
     supplyScore: Number(supplyScore.toFixed(1)),
     youbikeScore: Number(youbikeScore.toFixed(1)),
-    facilityScore: Number(facilityScore.toFixed(1)),
+    rentScore: Number(rentScore.toFixed(1)),
   };
 }
 
@@ -56,7 +71,6 @@ export function calculateOptimalScore(siteData) {
     youbike_distance,
     competitors,
     youbike_count,
-    facility_count = 5,
   } = siteData;
   
   // 計算基礎指標
@@ -69,19 +83,21 @@ export function calculateOptimalScore(siteData) {
   const supplyDemandRatio = calculateSupplyDemandRatio(competitors, daily_flow);
   
   // 計算各項分數
+  const rent = siteData.rent; // 可選，來自 shops 表或輸入
+  
   const scores = calculateScores(
     flowAccessibility,
     supplyDemandRatio,
     youbike_count,
-    facility_count
+    rent
   );
   
-  // 綜合分數（加權平均）
+  // 綜合分數（加權平均，包含 rentScore，權重：flow 0.40, supply 0.30, youbike 0.20, rent 0.10）
   const optimalScore = Number((
     scores.flowScore * 0.40 +
     scores.supplyScore * 0.30 +
     scores.youbikeScore * 0.20 +
-    scores.facilityScore * 0.10
+    scores.rentScore * 0.10
   ).toFixed(1));
   
   // 推薦等級
@@ -113,6 +129,7 @@ export function calculateOptimalScore(siteData) {
     supplyDemandRatio,
     supplyDemandStatus,
     ...scores,
+    rent: (rent !== undefined && rent !== null && !Number.isNaN(Number(rent))) ? Number(rent) : null,
     optimalScore,
     recommendation,
   };

@@ -1,4 +1,5 @@
 import { BigQuery } from '@google-cloud/bigquery';
+import { calculateRentScore } from './scoreCalculator.js';
 
 // 初始化 BigQuery 客戶端
 const bigquery = new BigQuery({
@@ -76,7 +77,7 @@ export async function getSitesFromBigQuery() {
     const [rows] = await bigquery.query(query);
     
     // 後處理：生成前端需要的欄位
-    const processedRows = rows.map(row => ({
+    let processedRows = rows.map(row => ({
       ...row,
       
       // 生成推薦狀態（根據分數和推薦欄位）
@@ -88,6 +89,38 @@ export async function getSitesFromBigQuery() {
       // 生成可達性類型
       access_type: generateAccessType(row)
     }));
+
+    // 嘗試把租金資訊以站為單位補回來（使用 shops 資料的站內 median rent）
+    try {
+      const shops = await getShopsFromBigQuery({ limit: 10000 });
+      const stationRents = new Map();
+      for (const s of shops) {
+        if (!s.station) continue;
+        const r = s.rent !== null && s.rent !== undefined ? Number(s.rent) : null;
+        if (r === null || Number.isNaN(r)) continue;
+        if (!stationRents.has(s.station)) stationRents.set(s.station, []);
+        stationRents.get(s.station).push(r);
+      }
+
+      const median = arr => {
+        arr.sort((a, b) => a - b);
+        const m = Math.floor(arr.length / 2);
+        return (arr.length % 2 === 1) ? arr[m] : (arr[m - 1] + arr[m]) / 2;
+      };
+
+      processedRows = processedRows.map(r => {
+        const rents = stationRents.get(r.mrt_station) || [];
+        const rentVal = rents.length ? median(rents) : null;
+        return {
+          ...r,
+          rent: (rentVal !== null ? Number(rentVal) : null),
+          rent_score: (rentVal !== null ? calculateRentScore(rentVal) : null),
+          rent_source: rents.length ? 'station_median' : null
+        };
+      });
+    } catch (err) {
+      console.warn('⚠️ Failed to attach rents to sites:', err.message);
+    }
     
     // 更新快取
     cachedSites = processedRows;
@@ -263,29 +296,73 @@ export async function getMrtStationsFromBigQuery() {
 export async function getShopsFromBigQuery(filters = {}) {
   const { type, category, limit = 1000 } = filters;
   
-  let whereClause = '';
-  if (type) {
-    whereClause += `WHERE type = '${type}'`;
-  }
-  if (category) {
-    whereClause += whereClause ? ` AND category = '${category}'` : `WHERE category = '${category}'`;
-  }
+  // 構建 WHERE 條件（安全性提示：目前為簡單字串拼接，若有外部輸入可考慮使用參數化查詢）
+  const whereConditions = [];
+  if (type) whereConditions.push(`type = '${type}'`);
+  if (category) whereConditions.push(`category = '${category}'`);
+  const whereClause = whereConditions.length ? `WHERE ${whereConditions.join(' AND ')}` : '';
   
+  // 資料來源改為 nov_2024.shops（包含 rent 欄位），明確選欄並做型別轉換
   const query = `
     SELECT 
-      *
+      station,
+      shop_type,
+      shop_name,
+      SAFE_CAST(disrtance AS FLOAT64) as disrtance,
+      SAFE_CAST(distance AS FLOAT64) as distance,
+      address,
+      SAFE_CAST(latitude AS FLOAT64) as latitude,
+      SAFE_CAST(longtitude AS FLOAT64) as longtitude,
+      SAFE_CAST(longitude AS FLOAT64) as longitude,
+      status,
+      SAFE_CAST(rent AS FLOAT64) as rent
     FROM 
-      \`${process.env.GCP_PROJECT_ID}.${DATASET_ID}.shops_locations\`
+      \`${process.env.GCP_PROJECT_ID}.nov_2024.shops\`
+    ${whereClause}
+    LIMIT ${limit}
   `;
   
   try {
-    console.log(`🏪 Querying BigQuery for shops... (type: ${type || 'all'}, category: ${category || 'all'})`);
+    console.log(`🏪 Querying BigQuery for shops... (type: ${type || 'all'}, category: ${category || 'all'}, limit: ${limit})`);
     const [rows] = await bigquery.query(query);
     
-    console.log(`✅ Successfully fetched ${rows.length} shops`);
-    return rows;
+    // 後處理：標準化欄位名稱、處理 typo、如果 rent 為 null 則嘗試從 status 中擷取數字
+    const processed = rows.map(r => {
+      // 優先使用正確欄位 distance，若沒有則使用 disrtance
+      const distance = (r.distance !== null && r.distance !== undefined) ? Number(r.distance) : ((r.disrtance !== null && r.disrtance !== undefined) ? Number(r.disrtance) : null);
+      // 優先使用 longitude，若沒有則使用 longtitude
+      const longitude = (r.longitude !== null && r.longitude !== undefined) ? Number(r.longitude) : ((r.longtitude !== null && r.longtitude !== undefined) ? Number(r.longtitude) : null);
+      // parse rent (primary: rent column; fallback: extract from status if exists)
+      let rent = (r.rent !== null && r.rent !== undefined) ? Number(r.rent) : null;
+      if ((rent === null || Number.isNaN(rent)) && r.status) {
+        const m = String(r.status).match(/(\d+(?:\.\d+)?)/);
+        if (m) rent = Number(m[1]);
+      }
+      return {
+        station: r.station || null,
+        shop_type: r.shop_type || null,
+        shop_name: r.shop_name || null,
+        distance: distance,
+        address: r.address || null,
+        latitude: (r.latitude !== null && r.latitude !== undefined) ? Number(r.latitude) : null,
+        longitude: longitude,
+        status: r.status || null,
+        rent: (rent !== undefined && rent !== null && !Number.isNaN(rent)) ? Number(rent) : null
+      };
+    });
+    
+    // 更新快取
+    cachedShops = processed;
+    cacheTimestamp = Date.now();
+    
+    console.log(`✅ Successfully fetched ${processed.length} shops (normalized)`);
+    return processed;
   } catch (error) {
-    console.error('❌ BigQuery Error (shops_locations):', error.message);
+    console.error('❌ BigQuery Error (nov_2024.shops):', error.message);
+    if (cachedShops) {
+      console.warn('⚠️ Returning stale cache due to query error');
+      return cachedShops;
+    }
     throw error;
   }
 }

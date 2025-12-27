@@ -305,7 +305,7 @@ router.get('/map-data', async (req, res) => {
 
 router.post('/calculate', async (req, res) => {
   try {
-    const { lat, lon, mrt_station, daily_flow, competitors, youbike_count } = req.body;
+    const { lat, lon, mrt_station, daily_flow, competitors, youbike_count, rent } = req.body;
     
     // 驗證必要欄位
     if (!lat || !lon || !mrt_station || !daily_flow) {
@@ -323,6 +323,7 @@ router.post('/calculate', async (req, res) => {
       daily_flow,
       competitors: competitors || 0,
       youbike_count: youbike_count || 0,
+      rent: rent !== undefined ? rent : undefined
     });
     
     res.json({
